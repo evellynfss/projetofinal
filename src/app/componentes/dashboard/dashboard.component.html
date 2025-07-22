@@ -1,0 +1,50 @@
+<app-navbar></app-navbar>
+
+<div class="dashboard-container">
+  <h2>📊 Dashboard Resumo</h2>
+
+  <div class="card-container">
+    <div class="card">
+      <p class="value">{{ totalImprodutivos }}</p>
+      <p class="label">Total Improdutivos</p>
+    </div>
+    <div class="card">
+      <p class="value">{{ totalManutencao }}</p>
+      <p class="label">Em Manutenção</p>
+    </div>
+    <div class="card">
+      <p class="value">{{ totalSinistro }}</p>
+      <p class="label">Por Sinistro</p>
+    </div>
+    <div class="card">
+      <p class="value">{{ tempoMedio }}</p>
+      <p class="label">Dias Médios Parado</p>
+    </div>
+  </div>
+
+  <table class="dashboard-table" *ngIf="veiculos.length > 0">
+    <thead>
+      <tr>
+        <th>Placa</th>
+        <th>Modelo</th>
+        <th>Status</th>
+        <th>Dias Parado</th>
+        <th>Fornecedor</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let veiculo of veiculos">
+        <td>{{ veiculo.placa }}</td>
+        <td>{{ veiculo.modelo }}</td>
+        <td>{{ veiculo.status }}</td>
+        <td>{{ calcularDiasParado(veiculo.dataEntrada) }}</td>
+        <td>{{ veiculo.fornecedor || '—' }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="veiculos.length === 0" class="mensagem-vazia">
+    Nenhum veículo improdutivo encontrado.
+  </div>
+</div>
+ <app-footer></app-footer>

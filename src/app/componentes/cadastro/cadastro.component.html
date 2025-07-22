@@ -1,0 +1,155 @@
+<app-navbar></app-navbar>
+
+
+<div class="container">
+    <h2>Cadastrar Veículo</h2>
+
+    <form (ngSubmit)="cadastrarVeiculo()">
+        <div class="form-section">
+            <h3 class="section-title">Dados Básicos do Veículo</h3>
+        </div>
+
+        <div class="form-row">
+            <div class="form-field">
+                <label>Placa <span class="required">*</span></label>
+                <input type="text" [(ngModel)]="veiculo.placa" name="placa" placeholder="ABC-1A 34" required maxlength="8">
+            </div>
+            <div class="form-field">
+                <label>GRUPO</label>
+                <input type="text" [(ngModel)]="veiculo.gr" name="gr" placeholder="">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-field">
+                <label>Modelo <span class="required">*</span></label>
+                <input type="text" [(ngModel)]="veiculo.modelo" name="modelo" placeholder="Toyota Corolla" required>
+            </div>
+            <div class="form-field">
+                <label>Marca</label>
+                <select [(ngModel)]="veiculo.marca" name="marca">
+                    <option value="">Selecione a marca</option>
+                    <option value="Toyota">Toyota</option>
+                    <option value="Honda">Honda</option>
+                    <option value="Volkswagen">Volkswagen</option>
+                    <option value="Ford">Ford</option>
+                    <option value="Chevrolet">Chevrolet</option>
+                    <option value="Fiat">Fiat</option>
+                    <option value="Hyundai">Hyundai</option>
+                    <option value="Renault">Renault</option>
+
+                </select>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-field">
+                <label>Ano <span class="required">*</span></label>
+                <input type="number" [(ngModel)]="veiculo.ano" name="ano" min="1990" max="2025" placeholder="2020" required>
+            </div>
+            <div class="form-field">
+                <label>Cor</label>
+                <input type="text" [(ngModel)]="veiculo.cor" name="cor" placeholder="Branco">
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3 class="section-title">⚙️ Informações Técnicas</h3>
+        </div>
+
+        <div class="form-row">
+            <div class="form-field">
+                <label>KM Atual <span class="required">*</span></label>
+                <input type="number" [(ngModel)]="veiculo.km" name="km" min="0" placeholder="50000" required>
+            </div>
+            <div class="form-field">
+                <label>Combustível</label>
+                <select [(ngModel)]="veiculo.combustivel" name="combustivel">
+                    <option value="">Tipo de combustível</option>
+                    <option value="flex">Flex</option>
+                    <option value="gasolina">Gasolina</option>
+                    <option value="etanol">Etanol</option>
+                    <option value="diesel">Diesel</option>
+                    <option value="eletrico">Elétrico</option>
+                    <option value="hibrido">Híbrido</option>
+                </select>
+            </div>
+        </div>
+     
+
+       
+        <div class="form-section">
+            <h3 class="section-title">🔧 Status e Motivo da Inativação</h3>
+        </div>
+
+        <div class="form-row">
+            <div class="form-field">
+                <label>Motivo <span class="required">*</span></label>
+                <select [(ngModel)]="veiculo.motivo" name="motivo" required>
+                    <option value="">Selecione o motivo</option>
+                    <option value="manutencao">Reparo Mecânico</option>
+                    <option value="sinistro">Avarias</option>
+                    <option value="documentacao">Desativação</option>
+                    <option value="vendido">Avaria-Desativação</option>
+                    <option value="vendido">Manutenção</option>
+                </select>
+            </div>
+            <div class="form-field">
+                <label>Data de Inativação</label>
+                <input type="date" [(ngModel)]="veiculo.dataInativacao" name="data_inativacao">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-field">
+                <label>Previsão de Entrega</label>
+                <input type="date" [(ngModel)]="veiculo.previsaoRetorno" name="previsao_retorno">
+            </div>
+            <div class="form-field">
+                <label>Prioridade</label>
+                <select [(ngModel)]="veiculo.prioridade" name="prioridade">
+                    <option value="">Selecione a prioridade</option>
+                    <option value="baixa">Baixa</option>
+                    <option value="media">Média</option>
+                    <option value="alta">Alta</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3 class="section-title">💰Fornecedor</h3>
+        </div>
+
+        <div class="form-row">
+            <div class="form-field">
+                <label>Fornecedor/Oficina</label>
+                <input type="text" [(ngModel)]="veiculo.fornecedor" name="fornecedor" placeholder="Nome da oficina ou fornecedor">
+            </div>
+            <div class="form-field">
+                <label>Telefone do Fornecedor</label>
+                <input type="tel" [(ngModel)]="veiculo.telefoneFornecedor" name="telefone_fornecedor" placeholder="(11) 99999-9999">
+            </div>
+        </div>
+
+      
+        <div class="form-section">
+            <h3 class="section-title">📄 Documentação</h3>
+        </div>
+
+        <div class="form-field full-width">
+            <label>Descrição Detalhada</label>
+            <textarea [(ngModel)]="veiculo.descricao" name="descricao" rows="4" placeholder="Descreva detalhadamente o problema, manutenção necessária ou motivo da inativação..."></textarea>
+        </div>
+
+        <div class="form-field full-width">
+            <label>Observações Internas</label>
+            <textarea [(ngModel)]="veiculo.observacoes" name="observacoes" rows="3" placeholder="Observações para uso interno da equipe..."></textarea>
+        </div>
+
+       
+        <div class="form-actions">
+            <button type="submit">Cadastrar Veículo</button>
+        </div>
+    </form>
+</div>
+ <app-footer></app-footer>

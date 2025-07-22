@@ -1,0 +1,114 @@
+<app-navbar></app-navbar>
+
+  <main class="main-content">
+    <section class="section active">
+      <h2 class="section-title"> Veículos Improdutivos</h2>
+
+   
+      <div class="filter-bar">
+        <button class="filter-btn" [class.active]="filtroAtivo === 'todos'" (click)="filtrarPor('todos')">
+          Todos
+        </button>
+        <button class="filter-btn" [class.active]="filtroAtivo === 'Manutenção'" (click)="filtrarPor('Manutenção')">
+          Manutenção
+        </button>
+        <button class="filter-btn" [class.active]="filtroAtivo === 'Sinistro'" (click)="filtrarPor('Sinistro')">
+          Sinistro
+        </button>
+        <button class="filter-btn" [class.active]="filtroAtivo === 'Documentação'" (click)="filtrarPor('Documentação')">
+          Documentação
+        </button>
+        <button class="filter-btn" [class.active]="filtroAtivo === 'Outros'" (click)="filtrarPor('Outros')">
+          Outros
+        </button>
+      </div>
+
+    
+      <div class="search-section">
+        <input type="text" class="search-input" placeholder="🔍 Buscar por placa ou modelo..." [(ngModel)]="termoBusca"
+          (input)="buscarVeiculos()">
+      </div>
+
+      
+      <div class="table-container">
+      
+        <div *ngIf="carregando" class="loading">
+          <div class="spinner"></div>
+          <p>Carregando veículos...</p>
+        </div>
+
+      
+        <table class="table" *ngIf="!carregando">
+          <thead>
+            <tr>
+              <th>Placa</th>
+              <th>GR</th>
+              <th>Modelo</th>
+              <th>KM Atual</th>
+              <th>Status</th>
+              <th>Última Atualização</th>
+              <th>Dias</th>
+              <th>Fornecedor</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+         
+            <tr *ngIf="veiculosFiltrados.length === 0">
+              <td colspan="9" class="empty-message">
+                <div class="empty-state">
+                  <span class="empty-icon"></span>
+                  <h3>Nenhum veículo encontrado</h3>
+                  <p>Não há veículos que correspondam aos filtros selecionados.</p>
+                </div>
+              </td>
+            </tr>
+
+        
+            <tr *ngFor="let v of veiculosFiltrados; trackBy: trackByPlaca">
+              <td class="placa-cell">
+                <strong>{{ v.placa }}</strong>
+              </td>
+              <td>{{ v.gr || 'N/A' }}</td>
+              <td>
+                <div class="modelo-info">
+                  <strong>{{ v.modelo }}</strong>
+                  <small *ngIf="v.marca">{{ v.marca }}</small>
+                </div>
+              </td>
+              <td>{{ (v.km | number) || 0 }} km</td>
+              <td>
+                <span class="status-badge" [ngClass]="{
+                  'status-manutencao': v.status === 'Manutenção',
+                  'status-sinistro': v.status === 'Sinistro', 
+                  'status-documentacao': v.status === 'Documentação',
+                  'status-outros': v.status === 'Outros'
+                }">
+                  {{ v.status || v.motivo }}
+                </span>
+              </td>
+              <td>{{ formatarData(v.dataEntrada) }}</td>
+              <td>
+                <span class="dias-badge">{{ calcularDias(v.dataEntrada) }} dias</span>
+              </td>
+              <td>{{ v.fornecedor || 'N/A' }}</td>
+              <td class="actions">
+                <button class="btn btn-success" (click)="reativarVeiculo(v)" title="Reativar veículo">
+                Reativar
+                </button>
+                <button class="btn btn-primary" (click)="editarVeiculo(v)" title="Editar veículo">
+                 Editar
+                </button>
+                <button class="btn btn-danger" (click)="removerVeiculo(v)" title="Remover veículo">
+                Remover
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+     
+    </section>
+  </main>
+   <app-footer></app-footer>

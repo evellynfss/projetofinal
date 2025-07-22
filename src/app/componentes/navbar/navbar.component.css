@@ -1,0 +1,92 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 30px;
+  background: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-icon {
+  font-size: 28px;
+  background: linear-gradient(to right, #FF512F, #F09819);
+  color: white;
+  padding: 8px;
+  border-radius: 10px;
+}
+
+.logo-text h1 {
+  font-size: 20px;
+  color: #e64500;
+  margin: 0;
+  font-weight: bold;
+}
+
+.logo-text p {
+  font-size: 13px;
+  color: #555;
+  margin: 0;
+}
+
+.nav-links {
+  display: flex;
+  gap: 25px;
+  align-items: center;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #444;
+  font-size: 15px;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: #e64500;
+}
+
+.btn-dashboard,
+.btn-cadastro,
+.btn-historico {
+  background: linear-gradient(to right, #FF512F, #F09819);
+  padding: 8px 16px;
+  border-radius: 8px;
+  color: white !important;
+  font-weight: bold;
+}
+
+/* Estilo do hambúrguer (para celular) */
+.hamburger {
+  display: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .nav-links.show {
+    display: flex;
+  }
+
+  .hamburger {
+    display: block;
+  }
+}
