@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { VeiculosService } from '../../services/veiculos.service';
 import { Router } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { FooterComponent } from '../footer/footer.component';
+
+import { Veiculo } from '../../model/veiculos.model';  
 
 @Component({
   selector: 'app-cadastro',
@@ -13,9 +15,10 @@ import { FooterComponent } from '../footer/footer.component';
   templateUrl: './cadastro.component.html',
   styleUrls: ['./cadastro.component.css']
 })
-export class CadastroVeiculoComponent {
+export class CadastroVeiculoComponent implements OnInit {
 
-  veiculo = {
+  veiculo: Veiculo = {
+    
     placa: '',
     gr: '',
     modelo: '',
@@ -37,38 +40,50 @@ export class CadastroVeiculoComponent {
 
   motivos = ['Manutenção', 'Sinistro', 'Documentação', 'Vendido', 'Sucata', 'Outros'];
 
+  modoEdicao = false;
+
   constructor(private veiculosService: VeiculosService, private router: Router) {}
 
-  ngOnInit(): void {
-    const navigation = this.router.getCurrentNavigation();
-    const state = navigation?.extras?.state as { veiculo?: any };
 
-    if (state?.veiculo) {
-      this.veiculo = {
-        ...this.veiculo,
-        ...state.veiculo
-      };
-    }
+ngOnInit(): void {
+  const veiculoJson = localStorage.getItem('veiculoParaEditar');
+  if (veiculoJson) {
+    this.modoEdicao = true;
+    this.veiculo = JSON.parse(veiculoJson);
+    localStorage.removeItem('veiculoParaEditar');
   }
+}
+
 
   cadastrarVeiculo() {
-  const novoVeiculo = {
-    ...this.veiculo,
-    km: Number(this.veiculo.km),
-    dataEntrada: new Date().toISOString(),
-    status: this.veiculo.motivo
-  };
+    const veiculoFormatado: Veiculo = {
+      ...this.veiculo,
+      km: Number(this.veiculo.km),
+      status: this.veiculo.motivo,
+      dataEntrada: this.modoEdicao ? this.veiculo.dataEntrada ?? new Date().toISOString() : new Date().toISOString()
+    };
 
-  this.veiculosService.addCarro(novoVeiculo)
-    .then(() => {
-      alert('Veículo cadastrado com sucesso!');
-      this.limparFormulario(); 
-    })
-    .catch(err => {
-      console.error('Erro ao cadastrar veículo:', err);
-      alert('Erro ao cadastrar veículo, tente novamente.');
-    });
-}
+    if (this.modoEdicao && this.veiculo.id) {
+      this.veiculosService.updateCarro(this.veiculo.id, veiculoFormatado)
+        .then(() => {
+          this.router.navigate(['/historico']);
+        })
+        .catch(err => {
+          console.error('Erro ao atualizar veículo:', err);
+
+        });
+    } else {
+      this.veiculosService.addCarro(veiculoFormatado)
+        .then(() => {
+
+          this.limparFormulario();
+        })
+        .catch(err => {
+          console.error('Erro ao cadastrar veículo:', err);
+
+        });
+    }
+  }
 
   limparFormulario() {
     this.veiculo = {
@@ -90,6 +105,7 @@ export class CadastroVeiculoComponent {
       telefoneFornecedor: '',
       observacoes: ''
     };
+    this.modoEdicao = false;
   }
 
   irParaVeiculos() {
@@ -121,4 +137,4 @@ export class CadastroVeiculoComponent {
 
     this.veiculo.telefoneFornecedor = valor;
   }
-}
+}  

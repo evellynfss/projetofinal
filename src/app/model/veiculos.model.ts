@@ -2,18 +2,30 @@
   import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 export interface Veiculo {
-  id?: string;             // ID do documento no Firestore
-  placa: string;           // Placa do veículo
-  modelo: string;          // Modelo do veículo
-  status?: string;         // Status (Ativo/Inativo)
-  motivo?: string;         // Motivo da inatividade
-  fornecedor?: string;     // Fornecedor ou empresa responsável
-  dataEntrada?: string;    // Data de entrada no sistema
-  km?: number;             // Quilometragem
-  gr?: string;             // GR (campo adicional usado no seu projeto)
-  marca?: string;          // Marca do veículo
-  dataReativacao?: string; // Data da reativação (novo campo)
+  id?: string;
+  placa: string;
+  gr: string;
+  modelo: string;
+  ano: string;
+  km: number | string;
+  motivo: string;
+  fornecedor: string;
+  imagem: string;
+  descricao: string;
+  marca: string;
+  cor: string;
+  combustivel: string;
+  dataEntrada?: string;
+  dataInativacao: string;
+  dataReativacao?: string;
+  previsaoRetorno: string;
+  prioridade: string;
+  telefoneFornecedor: string;
+  observacoes: string;
+  status?: string; 
+  
 }
+
 
   @Injectable({
     providedIn: 'root'
